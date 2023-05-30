@@ -1,0 +1,11 @@
+name: Semantic Versioning
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  workflow-calling:
+    uses: owner/github-versioning-automation-workflow/.github/workflows/versioning_automation.yml@v1.0.0
+    secrets: inherit

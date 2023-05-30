@@ -1,0 +1,31 @@
+name: Get Secrets From Azure Key Vault by Azure CLI
+
+description: Action Responsible for Getting Secrets from Azure Key Vault and Mask Them
+
+inputs:
+  creds:
+    required: true
+    description: Azure Credentials
+  vault-name:
+    required: true
+    description: Reference to Key Vault
+  app-reference:
+    required: true
+    description: Repository name and environment to reference the service
+
+runs:
+  using: "composite"
+  steps:
+      - name: Azure Login
+        uses: Azure/login@v1.4.5
+        with:
+          creds: ${{ inputs.creds }}
+
+      - name: Get Secrets From Azure Key Vault by Azure CLI
+        env:
+          VAULT_NAME: ${{ inputs.vault-name }}
+          APP_REFERENCE: ${{ inputs.app-reference }}
+        run: |
+          chmod +x ${{ github.action_path }}/scripts/get_secrets_kv.sh
+          ${{ github.action_path }}/scripts/get_secrets_kv.sh
+        shell: bash
